@@ -1,36 +1,217 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# React Dynamic Form Builder
 
-## Getting Started
+A powerful, flexible form builder that allows users to create, customize, and manage dynamic forms through a drag-and-drop interface.
 
-First, run the development server:
+## Features
+
+- Drag-and-drop form building interface
+- Multiple input types:
+  - Text input
+  - Textarea
+  - Radio buttons
+  - Checkboxes
+  - Select dropdowns
+  - Searchable dropdowns
+  - Email input
+  - Password input
+  - Number input
+  - Date picker
+  - Time picker
+  - File upload
+  - Camera input
+  - Currency input
+  - Phone input
+  - Rating
+  - Slider
+- Form validation
+- Form preview mode
+- Version control
+- Form activation/deactivation
+- Responsive design
+- Custom styling support
+- Form submission handling
+- Real-time preview
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Using npm
+npm install @your-scope/react-form-builder
+
+# Using yarn
+yarn add @your-scope/react-form-builder
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```typescript
+import { FormBuilder } from '@your-scope/react-form-builder';
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+function App() {
+  const handleSubmit = (data: any) => {
+    console.log('Form data:', data);
+  };
 
-## Learn More
+  return (
+    <FormBuilder
+      initialConfig={{
+        id: 'my-form',
+        name: 'My Form',
+        elements: [],
+        settings: {
+          labelPosition: 'top',
+          validationMode: 'onChange'
+        }
+      }}
+      onSubmit={handleSubmit}
+    />
+  );
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Components
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### FormBuilder
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The main component for building forms.
 
-## Deploy on Vercel
+```typescript
+interface FormBuilderProps {
+  initialConfig?: FormConfig;
+  onSave?: (form: FormConfig) => void;
+  onPreview?: (data: any) => void;
+  onChange?: (config: FormConfig) => void;
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### FormPreview
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Component for displaying the form to end users.
+
+```typescript
+interface FormPreviewProps {
+  config: FormConfig;
+  onSubmit?: (data: any) => void;
+}
+```
+
+### FormLoader
+
+Component for loading saved forms from API.
+
+```typescript
+interface FormLoaderProps {
+  formId: string;
+  onSubmit?: (data: any) => void;
+}
+```
+
+## Form Elements
+
+### Text Input
+```typescript
+{
+  type: 'textbox',
+  settings: {
+    name: 'full_name',
+    label: 'Full Name',
+    placeholder: 'Enter your full name',
+    validation: {
+      required: true,
+      minLength: 2
+    }
+  }
+}
+```
+
+### Email Input
+```typescript
+{
+  type: 'email',
+  settings: {
+    name: 'email',
+    label: 'Email Address',
+    validation: {
+      required: true,
+      pattern: /\S+@\S+\.\S+/
+    }
+  }
+}
+```
+
+[More element examples in documentation]
+
+## Styling
+
+The form builder uses Tailwind CSS for styling and can be customized through:
+- Custom CSS classes
+- Style props
+- Theme configuration
+
+## API Integration
+
+Example of saving form to backend:
+
+```typescript
+<FormBuilder
+  onSave={async (form) => {
+    const response = await fetch('/api/forms', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form)
+    });
+    const data = await response.json();
+    console.log('Form saved:', data);
+  }}
+/>
+```
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+```
+
+## Architecture
+
+```
+src/
+├── components/
+│   └── form-builder/
+│       ├── elements/     # Form elements
+│       ├── preview/      # Form preview
+│       ├── settings/     # Element settings
+│       └── index.ts      # Main component
+├── types/               # TypeScript types
+├── utils/              # Utility functions
+└── index.ts            # Package entry
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for more information.
+
+## Acknowledgments
+
+- Built with React
+- Uses shadcn/ui components
+- Tailwind CSS for styling
+- React Hook Form for form handling
